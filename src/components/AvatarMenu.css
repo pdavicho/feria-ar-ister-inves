@@ -1,9 +1,10 @@
 /* ============================================
-   AVATAR MENU CONTAINER - FIJO PARA MÓVIL
+   AVATAR MENU CONTAINER - CENTRADO PERFECTO
    ============================================ */
 .avatar-menu-container {
-  max-width: 600px; /* FIJO PARA MÓVIL */
-  margin: 0 auto;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto; /* Centrado horizontal */
   padding: 1.5rem 1rem;
 }
 

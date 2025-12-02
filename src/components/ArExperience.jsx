@@ -156,12 +156,12 @@ const ArExperience = ({ selectedAvatar, onGoToGallery, onBack }) => {
         </model-viewer>
       </div>
 
-      {/* Sección de subida de foto - MEJORADA */}
+      {/* Sección de subida de foto - SOLO GALERÍA */}
       <div className="upload-section">
         <div className="upload-card">
           <h3 className="upload-title">📸 ¿Ya tienes tu foto?</h3>
           <p className="upload-description">
-            Toma una nueva foto o selecciona una de tu galería
+            Después de tomarla en AR, selecciónala aquí para subirla a la galería
           </p>
 
           {uploading ? (
@@ -180,25 +180,7 @@ const ArExperience = ({ selectedAvatar, onGoToGallery, onBack }) => {
             </div>
           ) : (
             <>
-              {/* OPCIÓN 1: TOMAR FOTO NUEVA */}
-              <input 
-                type="file" 
-                accept="image/*" 
-                capture="environment"
-                id="cameraInput" 
-                className="file-input-hidden"
-                onChange={handleFileSelect}
-              />
-              
-              <button 
-                onClick={() => document.getElementById('cameraInput').click()}
-                className="upload-button camera-btn"
-              >
-                <span className="button-icon">📷</span>
-                <span className="button-text">Tomar foto nueva</span>
-              </button>
-
-              {/* OPCIÓN 2: SELECCIONAR DE GALERÍA */}
+              {/* SOLO BOTÓN DE GALERÍA */}
               <input 
                 type="file" 
                 accept="image/*"
@@ -209,14 +191,14 @@ const ArExperience = ({ selectedAvatar, onGoToGallery, onBack }) => {
               
               <button 
                 onClick={() => document.getElementById('galleryInput').click()}
-                className="upload-button gallery-btn"
+                className="upload-button gallery-btn-single"
               >
-                <span className="button-icon">🖼️</span>
-                <span className="button-text">Seleccionar de galería</span>
+                <span className="button-icon">📤</span>
+                <span className="button-text">Seleccionar foto de galería</span>
               </button>
 
               <p className="upload-info">
-                💡 La foto se optimizará automáticamente
+                💡 Toma la foto con el botón "Ver en AR" y luego selecciónala aquí
               </p>
             </>
           )}
