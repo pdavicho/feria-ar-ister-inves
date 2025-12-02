@@ -90,10 +90,7 @@ const ArExperience = ({ selectedAvatar, onGoToGallery, onBack }) => {
         avatar: selectedAvatar.name,
         avatarFile: selectedAvatar.file,
         createdAt: serverTimestamp(),
-        fileSize: compressedFile.size,
-        dimensions: {
-          // Podrías guardar esto si necesitas
-        }
+        fileSize: compressedFile.size
       });
       
       setUploadProgress(100);
@@ -159,12 +156,12 @@ const ArExperience = ({ selectedAvatar, onGoToGallery, onBack }) => {
         </model-viewer>
       </div>
 
-      {/* Sección de subida de foto */}
+      {/* Sección de subida de foto - MEJORADA */}
       <div className="upload-section">
         <div className="upload-card">
-          <h3 className="upload-title">📸 ¿Ya te tomaste la foto con el avatar?</h3>
+          <h3 className="upload-title">📸 ¿Ya tienes tu foto?</h3>
           <p className="upload-description">
-            Súbela aquí para agregarla a la galería pública del evento
+            Toma una nueva foto o selecciona una de tu galería
           </p>
 
           {uploading ? (
@@ -183,21 +180,39 @@ const ArExperience = ({ selectedAvatar, onGoToGallery, onBack }) => {
             </div>
           ) : (
             <>
+              {/* OPCIÓN 1: TOMAR FOTO NUEVA */}
               <input 
                 type="file" 
                 accept="image/*" 
                 capture="environment"
                 id="cameraInput" 
                 className="file-input-hidden"
-                onChange={handleFileSelect} 
+                onChange={handleFileSelect}
               />
               
               <button 
                 onClick={() => document.getElementById('cameraInput').click()}
-                className="upload-button"
+                className="upload-button camera-btn"
               >
-                <span className="button-icon">📤</span>
-                <span className="button-text">Subir foto recién tomada</span>
+                <span className="button-icon">📷</span>
+                <span className="button-text">Tomar foto nueva</span>
+              </button>
+
+              {/* OPCIÓN 2: SELECCIONAR DE GALERÍA */}
+              <input 
+                type="file" 
+                accept="image/*"
+                id="galleryInput" 
+                className="file-input-hidden"
+                onChange={handleFileSelect}
+              />
+              
+              <button 
+                onClick={() => document.getElementById('galleryInput').click()}
+                className="upload-button gallery-btn"
+              >
+                <span className="button-icon">🖼️</span>
+                <span className="button-text">Seleccionar de galería</span>
               </button>
 
               <p className="upload-info">

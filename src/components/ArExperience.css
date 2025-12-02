@@ -261,3 +261,82 @@
     padding: 2.5rem;
   }
 }
+
+/* ============================================
+   DUAL UPLOAD BUTTONS
+   ============================================ */
+.upload-button {
+  width: 100%;
+  border: none;
+  border-radius: 16px;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+/* Botón de cámara (principal) */
+.camera-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 4px 0 #5568d3;
+}
+
+.camera-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #5568d3, 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+.camera-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 0 #5568d3;
+}
+
+/* Botón de galería (secundario) */
+.gallery-btn {
+  background: white;
+  color: #667eea;
+  border: 2px solid #667eea;
+  box-shadow: none;
+}
+
+.gallery-btn:hover {
+  background: #f7fafc;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.gallery-btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.button-icon {
+  font-size: 1.5rem;
+}
+
+.button-text {
+  font-size: 1rem;
+}
+
+/* Responsive para botones */
+@media (max-width: 768px) {
+  .upload-button {
+    font-size: 1rem;
+    padding: 0.875rem 1.5rem;
+  }
+
+  .button-icon {
+    font-size: 1.25rem;
+  }
+
+  .button-text {
+    font-size: 0.95rem;
+  }
+}
