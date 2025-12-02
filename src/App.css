@@ -48,32 +48,28 @@
 }
 
 /* ============================================
-   MAIN CONTENT - RESPONSIVE
+   MAIN CONTENT - DIFERENCIADO POR VISTA
    ============================================ */
 .app-main {
   flex: 1;
   width: 100%;
-  max-width: 1400px; /* Más ancho para desktop */
   margin: 0 auto;
   padding: 1rem;
 }
 
-/* Vista de menú - centrada en móvil */
-.menu-view {
+/* 📱 VISTAS MÓVILES: Menu y AR (max 600px fijo) */
+.menu-view,
+.ar-view {
   max-width: 600px;
   margin: 0 auto;
 }
 
-/* Vista AR - ocupa todo el ancho necesario */
-.ar-view {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-/* Vista de galería - GRID para desktop */
+/* 🖥️ VISTA WEB: Gallery (sin límite, usa todo el ancho) */
 .gallery-view {
+  max-width: 100%;
   width: 100%;
-  /* Sin max-width para aprovechar pantalla completa */
+  padding: 0;
+  margin: 0;
 }
 
 /* ============================================
@@ -126,18 +122,13 @@
    RESPONSIVE BREAKPOINTS
    ============================================ */
 
-/* Tablets */
+/* Tablets y Desktop - Solo afecta header */
 @media (min-width: 768px) {
   .app-header h1 {
     font-size: 1.8rem;
   }
-  
-  .app-main {
-    padding: 2rem;
-  }
 }
 
-/* Desktop */
 @media (min-width: 1024px) {
   .app-header {
     padding: 1.5rem 3rem;

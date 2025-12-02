@@ -1,8 +1,8 @@
 /* ============================================
-   AR EXPERIENCE CONTAINER
+   AR EXPERIENCE CONTAINER - FIJO PARA MÓVIL
    ============================================ */
 .ar-experience-container {
-  max-width: 800px;
+  max-width: 600px; /* FIJO PARA MÓVIL */
   margin: 0 auto;
   padding: 1rem;
 }
@@ -31,14 +31,14 @@
   box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
 }
 
-.back-button:hover {
-  transform: translateX(-3px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+.back-button:active {
+  transform: scale(0.95);
+  box-shadow: 0 1px 4px rgba(102, 126, 234, 0.3);
 }
 
 .avatar-title {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.35rem;
   color: #2d3748;
   font-weight: 600;
 }
@@ -57,7 +57,7 @@
 
 .model-viewer {
   width: 100%;
-  height: 450px;
+  height: 400px;
   display: block;
 }
 
@@ -79,9 +79,9 @@
   z-index: 10;
 }
 
-.ar-button:hover {
-  transform: translateX(-50%) translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+.ar-button:active {
+  transform: translateX(-50%) scale(0.95);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .ar-help {
@@ -93,7 +93,7 @@
   color: white;
   padding: 8px 16px;
   border-radius: 20px;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   pointer-events: none;
 }
 
@@ -107,14 +107,14 @@
 .upload-card {
   background: white;
   border-radius: 20px;
-  padding: 2rem;
+  padding: 1.75rem;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
 .upload-title {
   margin: 0 0 0.5rem 0;
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   color: #2d3748;
   font-weight: 600;
 }
@@ -122,11 +122,11 @@
 .upload-description {
   margin: 0 0 1.5rem 0;
   color: #718096;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
 
 /* ============================================
-   UPLOAD BUTTON
+   DUAL UPLOAD BUTTONS
    ============================================ */
 .file-input-hidden {
   display: none;
@@ -134,43 +134,56 @@
 
 .upload-button {
   width: 100%;
-  background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
-  color: white;
   border: none;
   border-radius: 16px;
-  padding: 1rem 2rem;
-  font-size: 1.1rem;
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 0 #2f855a;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
+  margin-bottom: 1rem;
 }
 
-.upload-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 0 #2f855a, 0 8px 20px rgba(72, 187, 120, 0.3);
+/* Botón de cámara (principal) */
+.camera-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 4px 0 #5568d3;
 }
 
-.upload-button:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 0 #2f855a;
+.camera-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #5568d3;
+}
+
+/* Botón de galería (secundario) */
+.gallery-btn {
+  background: white;
+  color: #667eea;
+  border: 2px solid #667eea;
+  box-shadow: none;
+}
+
+.gallery-btn:active {
+  transform: scale(0.98);
+  background: #f7fafc;
 }
 
 .button-icon {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
 }
 
 .button-text {
-  font-size: 1rem;
+  font-size: 0.95rem;
 }
 
 .upload-info {
-  margin-top: 1rem;
-  font-size: 0.85rem;
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
   color: #a0aec0;
 }
 
@@ -182,10 +195,10 @@
 }
 
 .spinner {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   margin: 0 auto 1rem;
-  border: 5px solid #e2e8f0;
+  border: 4px solid #e2e8f0;
   border-top-color: #667eea;
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -196,7 +209,7 @@
 }
 
 .uploading-text {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   color: #667eea;
   margin: 0 0 1rem 0;
@@ -220,123 +233,38 @@
 }
 
 .progress-text {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #667eea;
   font-weight: 600;
   margin: 0;
 }
 
 /* ============================================
-   RESPONSIVE
+   RESPONSIVE - PANTALLAS MUY PEQUEÑAS
    ============================================ */
-@media (max-width: 768px) {
+@media (max-width: 360px) {
   .ar-experience-container {
-    padding: 0.5rem;
+    padding: 0.75rem;
   }
 
   .model-viewer {
-    height: 350px;
+    height: 320px;
   }
 
   .avatar-title {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
   }
 
   .upload-card {
-    padding: 1.5rem;
+    padding: 1.25rem;
   }
 
   .upload-button {
-    font-size: 1rem;
-    padding: 0.875rem 1.5rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .model-viewer {
-    height: 500px;
-  }
-
-  .upload-card {
-    padding: 2.5rem;
-  }
-}
-
-/* ============================================
-   DUAL UPLOAD BUTTONS
-   ============================================ */
-.upload-button {
-  width: 100%;
-  border: none;
-  border-radius: 16px;
-  padding: 1rem 2rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-}
-
-/* Botón de cámara (principal) */
-.camera-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  box-shadow: 0 4px 0 #5568d3;
-}
-
-.camera-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 0 #5568d3, 0 8px 20px rgba(102, 126, 234, 0.3);
-}
-
-.camera-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 0 #5568d3;
-}
-
-/* Botón de galería (secundario) */
-.gallery-btn {
-  background: white;
-  color: #667eea;
-  border: 2px solid #667eea;
-  box-shadow: none;
-}
-
-.gallery-btn:hover {
-  background: #f7fafc;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
-}
-
-.gallery-btn:active {
-  transform: translateY(0);
-  box-shadow: none;
-}
-
-.button-icon {
-  font-size: 1.5rem;
-}
-
-.button-text {
-  font-size: 1rem;
-}
-
-/* Responsive para botones */
-@media (max-width: 768px) {
-  .upload-button {
-    font-size: 1rem;
-    padding: 0.875rem 1.5rem;
+    font-size: 0.9rem;
+    padding: 0.875rem 1.25rem;
   }
 
   .button-icon {
-    font-size: 1.25rem;
-  }
-
-  .button-text {
-    font-size: 0.95rem;
+    font-size: 1.2rem;
   }
 }
