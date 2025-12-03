@@ -148,25 +148,24 @@ const ArExperience = ({ selectedAvatar, onGoToGallery, onBack }) => {
       {/* Instrucciones específicas */}
       <div className="ar-instructions">
         <div className="instruction-card android">
-          <h3>📱 Android - Instrucciones</h3>
+          <h3>Android - Instrucciones</h3>
           <ol>
             <li>Toca el botón "📱 Abrir en AR y Tomar Foto" arriba</li>
             <li>Se abrirá Google Scene Viewer</li>
             <li>Apunta tu cámara donde quieras colocar el avatar</li>
-            <li>Busca el <strong>botón de cámara ⚪</strong> en la parte inferior de la pantalla</li>
-            <li>Toca ese botón para capturar la foto</li>
+            <li>Toca el botón de captura ⚪</li>
             <li>La foto se guardará automáticamente en tu galería</li>
             <li>Regresa aquí y selecciónala para subirla</li>
           </ol>
         </div>
 
         <div className="instruction-card ios">
-          <h3>🍎 iOS - Instrucciones</h3>
+          <h3>iOS - Instrucciones</h3>
           <ol>
             <li>Toca el botón "📱 Abrir en AR y Tomar Foto" arriba</li>
             <li>Se abrirá AR Quick Look</li>
             <li>Posiciona el avatar en tu espacio</li>
-            <li>Toca el botón de captura ⚪ en la esquina</li>
+            <li>Toca el botón de captura ⚪</li>
             <li>Regresa aquí y selecciona la foto</li>
           </ol>
         </div>

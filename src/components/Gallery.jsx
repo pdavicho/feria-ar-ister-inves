@@ -60,22 +60,36 @@ const Gallery = ({ onBack }) => {
 
   // Descargar foto
   const downloadPhoto = async (url, photoId) => {
+  try {
+    // Método 1: Intentar descarga directa
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `RumiAR_${photoId}.jpg`;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    
+    // Agregar al DOM temporalmente
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // Dar feedback al usuario
+    setTimeout(() => {
+      alert('📥 Descarga iniciada. Revisa tu carpeta de Descargas.');
+    }, 500);
+
+  } catch (error) {
+    console.error('Error descargando foto:', error);
+    
+    // Método alternativo: Abrir en nueva pestaña
     try {
-      const response = await fetch(url);
-      const blob = await response.blob();
-      const blobUrl = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = blobUrl;
-      link.download = `RumiAR_${photoId}.jpg`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(blobUrl);
-    } catch (error) {
-      console.error('Error descargando foto:', error);
-      alert('No se pudo descargar la foto');
+      window.open(url, '_blank');
+      alert('✨ Foto abierta en nueva pestaña. Usa "Guardar imagen como..." para descargarla.');
+    } catch (err) {
+      alert('❌ No se pudo descargar. Intenta mantener presionada la imagen y selecciona "Guardar imagen".');
     }
-  };
+  }
+};
 
   // Activar modo admin
   const enableAdminMode = () => {
@@ -242,61 +256,76 @@ const Gallery = ({ onBack }) => {
         )}
       </div>
 
-      {/* Modal de foto completa */}
-      {selectedPhoto && (
-        <div className="photo-modal" onClick={closePhotoModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close" onClick={closePhotoModal}>
-              ✕
+      {/* Modal de foto completa - MEJORADO */}
+{selectedPhoto && (
+  <div className="photo-modal" onClick={closePhotoModal}>
+    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      {/* Botón cerrar MEJORADO - siempre visible */}
+      <button 
+        className="modal-close" 
+        onClick={closePhotoModal}
+        aria-label="Cerrar"
+      >
+        ✕
+      </button>
+      
+      <div className="modal-image-container">
+        <img 
+          src={selectedPhoto.url} 
+          alt={`Foto con ${selectedPhoto.avatar}`}
+          className="modal-image"
+        />
+      </div>
+      
+      <div className="modal-info">
+        <h3 className="modal-photo-title">📸 Foto con {selectedPhoto.avatar}</h3>
+        <p className="modal-date">
+          {selectedPhoto.createdAt?.toDate().toLocaleString('es-EC', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          })}
+        </p>
+        
+        <div className="modal-actions">
+          <button 
+            className="modal-btn download"
+            onClick={() => downloadPhoto(selectedPhoto.url, selectedPhoto.id)}
+          >
+            ⬇️ Descargar
+          </button>
+          <a 
+            href={selectedPhoto.url} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="modal-btn view"
+          >
+            🔗 Abrir
+          </a>
+          {isAdmin && (
+            <button 
+              className="modal-btn delete"
+              onClick={() => deletePhoto(selectedPhoto)}
+              disabled={deleting}
+            >
+              {deleting ? '⏳' : '🗑️'}
             </button>
-            
-            <img 
-              src={selectedPhoto.url} 
-              alt={`Foto con ${selectedPhoto.avatar}`}
-              className="modal-image"
-            />
-            
-            <div className="modal-info">
-              <h3>📸 Foto con {selectedPhoto.avatar}</h3>
-              <p className="modal-date">
-                {selectedPhoto.createdAt?.toDate().toLocaleString('es-EC', {
-                  day: 'numeric',
-                  month: 'long',
-                  year: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit'
-                })}
-              </p>
-              
-              <div className="modal-actions">
-                <button 
-                  className="modal-btn download"
-                  onClick={() => downloadPhoto(selectedPhoto.url, selectedPhoto.id)}
-                >
-                  ⬇️ Descargar
-                </button>
-                <a 
-                  href={selectedPhoto.url} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="modal-btn view"
-                >
-                  🔗 Abrir original
-                </a>
-                {isAdmin && (
-                  <button 
-                    className="modal-btn delete"
-                    onClick={() => deletePhoto(selectedPhoto)}
-                    disabled={deleting}
-                  >
-                    {deleting ? '⏳ Eliminando...' : '🗑️ Eliminar'}
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
+          )}
         </div>
-      )}
+
+        {/* Botón de cerrar adicional en móvil */}
+        <button 
+          className="modal-close-bottom"
+          onClick={closePhotoModal}
+        >
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 };
