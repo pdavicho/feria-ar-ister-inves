@@ -310,3 +310,23 @@
   0%, 100% { transform: translateX(-50%) scale(1); }
   50% { transform: translateX(-50%) scale(1.05); }
 }
+
+/* ============================================
+   FIX PARA RUMI NAVIDAD - IMAGEN MUY PEQUEÑA
+   ============================================ */
+.avatar-card.special-card .avatar-image-wrapper {
+  overflow: hidden;
+  background: linear-gradient(135deg, #fef2f2 0%, #f0fdf4 100%);
+}
+
+.avatar-card.special-card .avatar-image {
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1);
+  transform-origin: center center;
+}
+
+/* Ajuste durante hover/active */
+.avatar-card.special-card:active .avatar-image {
+  transform: scale(1.1);
+}

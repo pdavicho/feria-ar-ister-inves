@@ -3,19 +3,47 @@ import './AvatarMenu.css';
 
 // LISTA DE DATOS: Avatares
 export const avatars = [
-  { id: 1, name: "Rumi Científico", file: "/ruCientifico.glb", img: "/ruCientifico.png", color: "#4299e1" },
-  { id: 2, name: "Rumi Chef", file: "/ruChef.glb", img: "/ruChef.png", color: "#ed8936" },
-  { id: 3, name: "Rumi Médico", file: "/ruMedico.glb", img: "/ruMedico.png", color: "#48bb78" },
-  { id: 4, name: "Rumi Turista", file: "/ruTuristico.glb", img: "/ruTuristico.png", color: "#9f7aea" },
-  // 🎄 NUEVO AVATAR NAVIDEÑO
+  { 
+    id: 1, 
+    name: "Rumi Científico", 
+    file: "/ruCientifico.glb", 
+    img: "/ruCientifico.png", 
+    description: "Explora el mundo de la ciencia",
+    color: "#4299e1" 
+  },
+  { 
+    id: 2, 
+    name: "Rumi Chef", 
+    file: "/ruChef.glb", 
+    img: "/ruChef.png", 
+    description: "Maestro de la gastronomía",
+    color: "#ed8936" 
+  },
+  { 
+    id: 3, 
+    name: "Rumi Médico", 
+    file: "/ruMedico.glb", 
+    img: "/ruMedico.png", 
+    description: "Cuidando tu salud",
+    color: "#48bb78" 
+  },
+  { 
+    id: 4, 
+    name: "Rumi Turista", 
+    file: "/ruTuristico.glb", 
+    img: "/ruTuristico.png", 
+    description: "Aventurero del mundo",
+    color: "#9f7aea" 
+  },
+  // 🎄 AVATAR NAVIDEÑO ESPECIAL
   { 
     id: 5, 
     name: "Rumi Navidad", 
     file: "/ruPapaNoel.glb", 
-    secondaryFile: "/arbolNavidad.glb", // Archivo adicional
-    img: "/ruPapaNoel.PNG", 
+    img: "/ruPapaNoel.png",  // ← Cambié .PNG a .png (minúsculas)
+    description: "¡Foto navideña especial!",
     color: "#dc2626",
-    isSpecial: true // Marcador para identificarlo
+    isSpecial: true
   },
 ];
 
@@ -65,7 +93,7 @@ const AvatarMenu = ({ onSelectAvatar }) => {
             <div className="avatar-info">
               <h3 className="avatar-name">{avatar.name}</h3>
               <p className="avatar-description">
-                {avatar.isSpecial ? "¡Foto navideña con árbol!" : avatar.description || "Interactúa en AR"}
+                {avatar.description}
               </p>
             </div>
 

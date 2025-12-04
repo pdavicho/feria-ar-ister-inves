@@ -4,11 +4,28 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import './ArExperience.css';
 
+// Polyfill para roundRect (compatibilidad con navegadores antiguos)
+if (!CanvasRenderingContext2D.prototype.roundRect) {
+  CanvasRenderingContext2D.prototype.roundRect = function(x, y, width, height, radius) {
+    this.beginPath();
+    this.moveTo(x + radius, y);
+    this.lineTo(x + width - radius, y);
+    this.quadraticCurveTo(x + width, y, x + width, y + radius);
+    this.lineTo(x + width, y + height - radius);
+    this.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+    this.lineTo(x + radius, y + height);
+    this.quadraticCurveTo(x, y + height, x, y + height - radius);
+    this.lineTo(x, y + radius);
+    this.quadraticCurveTo(x, y, x + radius, y);
+    this.closePath();
+  };
+}
+
 const ArExperience = ({ selectedAvatar, onGoToGallery, onBack }) => {
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
 
-  // COMPRIMIR IMAGEN
+  // COMPRIMIR IMAGEN Y AGREGAR LOGO
   const compressImage = (file) => {
     return new Promise((resolve) => {
       const reader = new FileReader();
@@ -18,19 +35,58 @@ const ArExperience = ({ selectedAvatar, onGoToGallery, onBack }) => {
           const canvas = document.createElement('canvas');
           const ctx = canvas.getContext('2d');
           
+          // Configurar canvas con tamaño optimizado
           const maxWidth = 1920;
           const scale = Math.min(1, maxWidth / img.width);
           canvas.width = img.width * scale;
           canvas.height = img.height * scale;
           
+          // Dibujar imagen principal
           ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
           
-          canvas.toBlob((blob) => {
-            resolve(new File([blob], file.name, { 
-              type: 'image/jpeg',
-              lastModified: Date.now()
-            }));
-          }, 'image/jpeg', 0.85);
+          // Cargar y agregar logo
+          const logo = new Image();
+          logo.crossOrigin = "anonymous";
+          logo.onload = () => {
+            // Calcular tamaño del logo (15% del ancho de la imagen)
+            const logoWidth = canvas.width * 0.15;
+            const logoHeight = (logo.height / logo.width) * logoWidth;
+            
+            // Posición: esquina inferior derecha con margen
+            const margin = canvas.width * 0.03;
+            const x = canvas.width - logoWidth - margin;
+            const y = canvas.height - logoHeight - margin;
+            
+            // Dibujar fondo semi-transparente para el logo
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+            ctx.roundRect(x - 10, y - 10, logoWidth + 20, logoHeight + 20, 10);
+            ctx.fill();
+            
+            // Dibujar logo
+            ctx.drawImage(logo, x, y, logoWidth, logoHeight);
+            
+            // Convertir a blob
+            canvas.toBlob((blob) => {
+              resolve(new File([blob], file.name, { 
+                type: 'image/jpeg',
+                lastModified: Date.now()
+              }));
+            }, 'image/jpeg', 0.85);
+          };
+          
+          logo.onerror = () => {
+            // Si falla cargar el logo, continuar sin él
+            console.warn('No se pudo cargar el logo del instituto');
+            canvas.toBlob((blob) => {
+              resolve(new File([blob], file.name, { 
+                type: 'image/jpeg',
+                lastModified: Date.now()
+              }));
+            }, 'image/jpeg', 0.85);
+          };
+          
+          // Cargar logo desde public
+          logo.src = '/logo-instituto.png';
         };
         img.src = e.target.result;
       };
@@ -116,84 +172,73 @@ const ArExperience = ({ selectedAvatar, onGoToGallery, onBack }) => {
         <h2 className="avatar-title-centered">{selectedAvatar.name}</h2>
       </div>
 
-      {/* MODEL VIEWER - CONFIGURADO PARA ESCENAS MÚLTIPLES */}
-<div className="model-viewer-wrapper">
-  {/* Vista previa 3D - mostrar ambos modelos si es especial */}
-  {selectedAvatar.isSpecial ? (
-    // ESCENA NAVIDEÑA CON DOS MODELOS
-    <div className="dual-model-container">
-      <model-viewer
-        src={selectedAvatar.file} 
-        alt={selectedAvatar.name}
-        camera-controls
-        shadow-intensity="1"
-        auto-rotate
-        rotation-per-second="15deg"
-        camera-orbit="0deg 75deg 2.5m"
-        className="model-viewer preview-model"
-      >
-        <div className="ar-help">
-          <p>🎄 Vista previa • En AR verás el árbol también</p>
-        </div>
-      </model-viewer>
-    </div>
-  ) : (
-    // MODELO NORMAL
-    <model-viewer
-      src={selectedAvatar.file} 
-      alt={selectedAvatar.name}
-      ar
-      ar-modes="scene-viewer webxr quick-look"
-      ar-scale="auto"
-      camera-controls
-      shadow-intensity="1"
-      auto-rotate
-      rotation-per-second="30deg"
-      className="model-viewer"
-    >
-      <button slot="ar-button" className="ar-button">
-        📱 Abrir en AR y Tomar Foto
-      </button>
-      
-      <div className="ar-help">
-        <p>👆 Arrastra para rotar • 🔍 Pellizca para zoom</p>
+      {/* MODEL VIEWER - TODOS LOS AVATARES IGUALES */}
+      <div className="model-viewer-wrapper">
+        <model-viewer
+          src={selectedAvatar.file} 
+          alt={selectedAvatar.name}
+          ar
+          ar-modes="scene-viewer webxr quick-look"
+          ar-scale="auto"
+          camera-controls
+          shadow-intensity="1"
+          auto-rotate
+          rotation-per-second="30deg"
+          tone-mapping="neutral"
+          exposure="1"
+          environment-image="neutral"
+          className="model-viewer"
+          ios-src=""
+        >
+          {/* Botón AR - diferente texto si es especial */}
+          <button 
+            slot="ar-button" 
+            className={`ar-button ${selectedAvatar.isSpecial ? 'special-ar-button' : ''}`}
+          >
+            {selectedAvatar.isSpecial ? '🎄 Abrir en AR - Escena Navideña' : '📱 Abrir en AR y Tomar Foto'}
+          </button>
+          
+          <div className="ar-help">
+            <p>{selectedAvatar.isSpecial ? '🎄 Escena especial de Navidad' : '👆 Arrastra para rotar • 🔍 Pellizca para zoom'}</p>
+          </div>
+        </model-viewer>
       </div>
-    </model-viewer>
-  )}
 
-  {/* Botón AR especial para escena navideña */}
-  {selectedAvatar.isSpecial && (
-    <a 
-      href={`intent://arvr.google.com/scene-viewer/1.0?file=${encodeURIComponent(window.location.origin + selectedAvatar.file)}&file=${encodeURIComponent(window.location.origin + selectedAvatar.secondaryFile)}&mode=ar_preferred&resizable=false#Intent;scheme=https;package=com.google.ar.core;action=android.intent.action.VIEW;S.browser_fallback_url=${encodeURIComponent(window.location.href)};end;`}
-      className="ar-button special-ar-button"
-      rel="noopener noreferrer"
-    >
-      🎄 Abrir Escena Navideña en AR
-    </a>
-  )}
-</div>
+      {/* Instrucciones especiales para Navidad */}
+      {selectedAvatar.isSpecial && (
+        <div className="special-instructions">
+          <h3>🎄 Experiencia Navideña Especial</h3>
+          <p><strong>Este avatar incluye decoración navideña integrada.</strong></p>
+          <ul>
+            <li>🎅 Papá Noel Rumi con su traje festivo</li>
+            <li>📸 Perfecto para fotos navideñas</li>
+            <li>✨ Tómate la foto y compártela</li>
+          </ul>
+        </div>
+      )}
 
-      {/* Instrucciones específicas */}
+      {/* Instrucciones por plataforma */}
       <div className="ar-instructions">
         <div className="instruction-card android">
-          <h3>Android - Instrucciones</h3>
+          <h3>📱 Android - Instrucciones</h3>
           <ol>
-            <li>Toca el botón "📱 Abrir en AR y Tomar Foto" arriba</li>
+            <li>Toca el botón verde arriba</li>
             <li>Se abrirá Google Scene Viewer</li>
             <li>Apunta tu cámara donde quieras colocar el avatar</li>
-            <li>Toca el botón de captura ⚪</li>
-            <li>La foto se guardará automáticamente en tu galería</li>
+            <li>Busca el <strong>botón de cámara ⚪</strong> en la parte inferior</li>
+            <li>Toca ese botón para capturar la foto</li>
+            <li>La foto se guardará en tu galería</li>
             <li>Regresa aquí y selecciónala para subirla</li>
           </ol>
         </div>
 
         <div className="instruction-card ios">
-          <h3>iOS - Instrucciones</h3>
+          <h3>🍎 iOS - Instrucciones</h3>
           <ol>
-            <li>Toca el botón "📱 Abrir en AR y Tomar Foto" arriba</li>
+            <li>Toca el botón verde arriba</li>
             <li>Se abrirá AR Quick Look</li>
             <li>Posiciona el avatar en tu espacio</li>
-            <li>Toca el botón de captura ⚪</li>
+            <li>Toca el botón de captura ⚪ en la esquina</li>
             <li>Regresa aquí y selecciona la foto</li>
           </ol>
         </div>
@@ -239,12 +284,12 @@ const ArExperience = ({ selectedAvatar, onGoToGallery, onBack }) => {
               </button>
 
               <div className="upload-tip">
-                <p>💡 <strong>No encuentras el botón de cámara en AR?</strong></p>
-                <p>Algunos dispositivos Android no lo muestran. En ese caso, puedes:</p>
-                <ul>
-                  <li>Usar la captura de pantalla de tu teléfono</li>
-                  <li>O tomar una foto normal del avatar en la pantalla</li>
-                </ul>
+                <p>💡 <strong>Tip importante:</strong></p>
+                <p>Tu foto se guardará automáticamente con el logo del instituto.</p>
+                <p className="tip-secondary">
+                  <strong>¿No encuentras el botón de cámara en AR?</strong><br/>
+                  Algunos dispositivos Android no lo muestran. Usa captura de pantalla de tu teléfono.
+                </p>
               </div>
             </>
           )}

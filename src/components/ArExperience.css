@@ -394,3 +394,107 @@
   transform: translateX(-50%) scale(0.95);
   box-shadow: 0 2px 6px rgba(220, 38, 38, 0.4);
 }
+
+/* ============================================
+   SPECIAL INSTRUCTIONS
+   ============================================ */
+.special-instructions {
+  background: linear-gradient(135deg, #fef2f2 0%, #f0fdf4 100%);
+  border-left: 4px solid #dc2626;
+  padding: 1.25rem;
+  margin: 0 0.25rem 1.5rem 0.25rem;
+  border-radius: 12px;
+}
+
+.special-instructions h3 {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.05rem;
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.special-instructions p {
+  margin: 0.5rem 0;
+  font-size: 0.88rem;
+  color: #4a5568;
+  line-height: 1.5;
+}
+
+.special-instructions ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.special-instructions li {
+  margin: 0.35rem 0;
+  color: #4a5568;
+  font-size: 0.85rem;
+}
+
+.special-instructions p strong {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+/* ============================================
+   SPECIAL AR BUTTON
+   ============================================ */
+.ar-button.special-ar-button {
+  background: linear-gradient(135deg, #dc2626 0%, #16a34a 100%);
+  animation: glow 2s infinite;
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(220, 38, 38, 0.6), 0 0 30px rgba(22, 163, 74, 0.3);
+  }
+}
+
+/* ============================================
+   UPLOAD TIP - MEJORADO
+   ============================================ */
+.upload-tip {
+  margin-top: 1.25rem;
+  padding: 1rem;
+  background: #fffbeb;
+  border-left: 4px solid #f59e0b;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.upload-tip p {
+  margin: 0.5rem 0;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: #92400e;
+}
+
+.upload-tip p:first-child {
+  margin-top: 0;
+}
+
+.upload-tip p strong {
+  font-weight: 600;
+  color: #78350f;
+}
+
+.tip-secondary {
+  margin-top: 1rem !important;
+  padding-top: 1rem;
+  border-top: 1px solid #fde68a;
+  font-size: 0.8rem !important;
+}
+
+.upload-tip ul {
+  margin: 0.5rem 0 0 0;
+  padding-left: 1.25rem;
+}
+
+.upload-tip li {
+  margin: 0.25rem 0;
+  font-size: 0.8rem;
+  color: #92400e;
+}
