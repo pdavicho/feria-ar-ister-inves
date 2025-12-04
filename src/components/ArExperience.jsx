@@ -116,34 +116,62 @@ const ArExperience = ({ selectedAvatar, onGoToGallery, onBack }) => {
         <h2 className="avatar-title-centered">{selectedAvatar.name}</h2>
       </div>
 
-      {/* MODEL VIEWER - CONFIGURADO PARA AR */}
-      <div className="model-viewer-wrapper">
-        <model-viewer
-          src={selectedAvatar.file} 
-          alt={selectedAvatar.name}
-          ar
-          ar-modes="scene-viewer webxr quick-look"
-          ar-scale="auto"
-          camera-controls
-          shadow-intensity="1"
-          auto-rotate
-          rotation-per-second="30deg"
-          tone-mapping="neutral"
-          exposure="1"
-          environment-image="neutral"
-          className="model-viewer"
-          ios-src=""
-        >
-          {/* Botón AR personalizado */}
-          <button slot="ar-button" className="ar-button">
-            📱 Abrir en AR y Tomar Foto
-          </button>
-          
-          <div className="ar-help">
-            <p>👆 Arrastra para rotar • 🔍 Pellizca para zoom</p>
-          </div>
-        </model-viewer>
+      {/* MODEL VIEWER - CONFIGURADO PARA ESCENAS MÚLTIPLES */}
+<div className="model-viewer-wrapper">
+  {/* Vista previa 3D - mostrar ambos modelos si es especial */}
+  {selectedAvatar.isSpecial ? (
+    // ESCENA NAVIDEÑA CON DOS MODELOS
+    <div className="dual-model-container">
+      <model-viewer
+        src={selectedAvatar.file} 
+        alt={selectedAvatar.name}
+        camera-controls
+        shadow-intensity="1"
+        auto-rotate
+        rotation-per-second="15deg"
+        camera-orbit="0deg 75deg 2.5m"
+        className="model-viewer preview-model"
+      >
+        <div className="ar-help">
+          <p>🎄 Vista previa • En AR verás el árbol también</p>
+        </div>
+      </model-viewer>
+    </div>
+  ) : (
+    // MODELO NORMAL
+    <model-viewer
+      src={selectedAvatar.file} 
+      alt={selectedAvatar.name}
+      ar
+      ar-modes="scene-viewer webxr quick-look"
+      ar-scale="auto"
+      camera-controls
+      shadow-intensity="1"
+      auto-rotate
+      rotation-per-second="30deg"
+      className="model-viewer"
+    >
+      <button slot="ar-button" className="ar-button">
+        📱 Abrir en AR y Tomar Foto
+      </button>
+      
+      <div className="ar-help">
+        <p>👆 Arrastra para rotar • 🔍 Pellizca para zoom</p>
       </div>
+    </model-viewer>
+  )}
+
+  {/* Botón AR especial para escena navideña */}
+  {selectedAvatar.isSpecial && (
+    <a 
+      href={`intent://arvr.google.com/scene-viewer/1.0?file=${encodeURIComponent(window.location.origin + selectedAvatar.file)}&file=${encodeURIComponent(window.location.origin + selectedAvatar.secondaryFile)}&mode=ar_preferred&resizable=false#Intent;scheme=https;package=com.google.ar.core;action=android.intent.action.VIEW;S.browser_fallback_url=${encodeURIComponent(window.location.href)};end;`}
+      className="ar-button special-ar-button"
+      rel="noopener noreferrer"
+    >
+      🎄 Abrir Escena Navideña en AR
+    </a>
+  )}
+</div>
 
       {/* Instrucciones específicas */}
       <div className="ar-instructions">

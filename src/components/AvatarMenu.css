@@ -267,3 +267,46 @@
     margin: 0; /* Sin margen en desktop */
   }
 }
+
+/* ============================================
+   SPECIAL AVATAR CARD (NAVIDAD)
+   ============================================ */
+.avatar-card.special-card {
+  border: 2px solid #dc2626;
+  background: linear-gradient(135deg, #ffffff 0%, #fef2f2 100%);
+  position: relative;
+  overflow: visible;
+}
+
+.avatar-card.special-card::before {
+  background: linear-gradient(90deg, #dc2626, #16a34a, #dc2626);
+  height: 4px;
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -100% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.special-badge {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #dc2626 0%, #16a34a 100%);
+  color: white;
+  padding: 0.35rem 0.875rem;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);
+  z-index: 20;
+  white-space: nowrap;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: translateX(-50%) scale(1); }
+  50% { transform: translateX(-50%) scale(1.05); }
+}

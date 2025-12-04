@@ -1,48 +1,28 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './AvatarMenu.css';
 
-// LISTA DE AVATARES - COINCIDE CON GALLERY
+// LISTA DE DATOS: Avatares
 export const avatars = [
+  { id: 1, name: "Rumi Científico", file: "/ruCientifico.glb", img: "/ruCientifico.png", color: "#4299e1" },
+  { id: 2, name: "Rumi Chef", file: "/ruChef.glb", img: "/ruChef.png", color: "#ed8936" },
+  { id: 3, name: "Rumi Médico", file: "/ruMedico.glb", img: "/ruMedico.png", color: "#48bb78" },
+  { id: 4, name: "Rumi Turista", file: "/ruTuristico.glb", img: "/ruTuristico.png", color: "#9f7aea" },
+  // 🎄 NUEVO AVATAR NAVIDEÑO
   { 
-    id: 1, 
-    name: "Rumi Científico", 
-    file: "/ruCientifico.glb", 
-    img: "/ruCientifico.png",
-    description: "Explora el mundo de la ciencia",
-    color: "#4299e1" // Azul ciencia
-  },
-  { 
-    id: 2, 
-    name: "Rumi Chef", 
-    file: "/ruChef.glb", 
-    img: "/ruChef.png",
-    description: "Maestro de la gastronomía",
-    color: "#ed8936" // Naranja chef
-  },
-  { 
-    id: 3, 
-    name: "Rumi Médico", 
-    file: "/ruMedico.glb", 
-    img: "/ruMedico.png",
-    description: "Cuidando tu salud",
-    color: "#48bb78" // Verde médico
-  },
-  { 
-    id: 4, 
-    name: "Rumi Turista", 
-    file: "/ruTuristico.glb", 
-    img: "/ruTuristico.png",
-    description: "Aventurero del mundo",
-    color: "#9f7aea" // Púrpura turista
+    id: 5, 
+    name: "Rumi Navidad", 
+    file: "/ruPapaNoel.glb", 
+    secondaryFile: "/arbolNavidad.glb", // Archivo adicional
+    img: "/ruPapaNoel.PNG", 
+    color: "#dc2626",
+    isSpecial: true // Marcador para identificarlo
   },
 ];
 
 const AvatarMenu = ({ onSelectAvatar }) => {
-  const [hoveredAvatar, setHoveredAvatar] = useState(null);
-
   return (
     <div className="avatar-menu-container">
-      {/* Header mejorado */}
+      {/* Header */}
       <div className="menu-header">
         <h2 className="menu-title">🎭 Elige tu personaje</h2>
         <p className="menu-subtitle">
@@ -55,14 +35,17 @@ const AvatarMenu = ({ onSelectAvatar }) => {
         {avatars.map((avatar) => (
           <div 
             key={avatar.id}
-            className={`avatar-card ${hoveredAvatar === avatar.id ? 'hovered' : ''}`}
+            className={`avatar-card ${avatar.isSpecial ? 'special-card' : ''}`}
             onClick={() => onSelectAvatar(avatar)}
-            onMouseEnter={() => setHoveredAvatar(avatar.id)}
-            onMouseLeave={() => setHoveredAvatar(null)}
             style={{
               '--avatar-color': avatar.color
             }}
           >
+            {/* Badge especial para navidad */}
+            {avatar.isSpecial && (
+              <div className="special-badge">🎄 Especial</div>
+            )}
+            
             {/* Badge de ID */}
             <div className="avatar-badge">#{avatar.id}</div>
 
@@ -81,7 +64,9 @@ const AvatarMenu = ({ onSelectAvatar }) => {
             {/* Info del avatar */}
             <div className="avatar-info">
               <h3 className="avatar-name">{avatar.name}</h3>
-              <p className="avatar-description">{avatar.description}</p>
+              <p className="avatar-description">
+                {avatar.isSpecial ? "¡Foto navideña con árbol!" : avatar.description || "Interactúa en AR"}
+              </p>
             </div>
 
             {/* Indicador de hover */}
