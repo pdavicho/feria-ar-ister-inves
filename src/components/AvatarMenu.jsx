@@ -45,6 +45,14 @@ export const avatars = [
     color: "#dc2626",
     isSpecial: true
   },
+  {
+    id: 6,
+    name: "Colibrí Investigador",
+    file: "/colibri.glb",
+    img: "/colibri.png",
+    description: "Embajador de la investigación",
+    color: "#16a34a"
+  },
 ];
 
 const AvatarMenu = ({ onSelectAvatar }) => {
